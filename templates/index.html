@@ -6,6 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello world</h1>
+    <h1>Deteksi hasil laut</h1>
+    <form action="/detect" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Upload dan Deteksi</button>
+    </form>
 </body>
 </html>

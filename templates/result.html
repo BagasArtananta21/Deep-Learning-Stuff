@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hasil Deteksi</h1>
+    <h2>Gambar Input:</h2>
+    <img src="{{ (input_image) }}" alt="Input Image" style="max-width: 500px;">
+    <h2>Gambar Output:</h2>
+    <img src="{{ (output_image) }}" alt="Output Image" style="max-width: 500px;">
+
+    <h2>Kelas:</h2>
+    <ul>
+        {% for cls, count in results.items() %}
+            <li>Kelas {{ cls }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
