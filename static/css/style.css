@@ -1,8 +1,9 @@
 
+
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -10,14 +11,17 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
     background: white;
     border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     overflow: hidden;
 }
 
@@ -29,115 +33,167 @@ body {
 }
 
 .header h1 {
-    font-size: 2.5em;
+    font-size: 2.2em;
     margin-bottom: 10px;
 }
 
 .header p {
-    font-size: 1.1em;
+    font-size: 1em;
     opacity: 0.9;
 }
 
+.tabs-nav {
+    display: flex;
+    justify-content: center;
+    background: #f1f1f1;
+    padding: 10px;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #555;
+    background: transparent;
+}
+
+.tab-btn:hover {
+    background: #e2e6ea;
+    color: #333;
+}
+
+.tab-btn.active {
+    background: #007bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+}
 
 .tab-content {
-padding: 30px;
-display: none;
+    padding: 40px;
+    display: none;
+    animation: fadeIn 0.4s ease;
 }
 
 .tab-content.active {
-display: block;
+    display: block;
 }
 
-.upload-area {
-border: 2px dashed #007bff;
-border-radius: 10px;
-padding: 40px;
-text-align: center;
-margin-bottom: 20px;
-transition: all 0.3s ease;
-background: #f8f9ff;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-.upload-area:hover {
-border-color: #0056b3;
-background: #e3f2fd;
-}
-
-.upload-area i {
-font-size: 48px;
-color: #007bff;
-margin-bottom: 15px;
-}
-
-.btn {
-padding: 12px 30px;
-border: none;
-border-radius: 8px;
-font-size: 16px;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.3s ease;
-margin: 5px;
-}
-
-.btn-primary {
-background: #007bff;
-color: white;
-}
-
-.btn-primary:hover {
-background: #0056b3;
-transform: translateY(-2px);
-}
-
 
 .upload-form {
     width: 100%;
 }
 
+.upload-area {
+    border: 2px dashed #a3c9f8;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    background: #f8f9ff;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #007bff;
+    background: #f0f7ff;
+}
+
+.upload-icon {
+    font-size: 50px;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.upload-title {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.upload-hint {
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 0.9em;
+}
+
 .file-input-container {
     margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="file"] {
+    display: none;
 }
 
 .file-label {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 20px;
-    background: #007bff;
+    padding: 12px 25px;
+    background: #007bff; 
     color: white;
-    border-radius: 8px;
+    border-radius: 50px;
     cursor: pointer;
+    font-weight: 600;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .file-label:hover {
     background: #0056b3;
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-.file-button {
-    font-weight: 600;
+.file-name-display {
+    color: #666;
+    font-style: italic;
+    font-size: 0.9em;
+    margin-top: 5px;
+    min-height: 20px;
 }
 
-.file-name {
-    background: white;
-    color: #333;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    min-width: 200px;
-    text-align: center;
+.btn-submit {
+    margin-top: 10px;
+    padding: 12px 40px;
+    background: #28a745; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-#imageInput {
-    display: none;
+.btn-submit:hover {
+    background: #218838;
+    transform: scale(1.05);
 }
 
-.upload-form .upload-area {
-    cursor: default;
+.file-label-video {
+    background: #e67e22;
 }
 
-.upload-form .btn {
-    margin-top: 15px;
+.file-label-video:hover {
+    background: #d35400;
+}
+
+.btn-video {
+    background: #e67e22;
+}
+
+.btn-video:hover {
+    background: #d35400;
 }
