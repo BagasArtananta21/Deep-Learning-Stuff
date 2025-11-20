@@ -3,13 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>YOLO Object Detection</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- CONTAINER & HEADER --- */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        /* --- TAB NAVIGATION --- */
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            background: #f1f1f1;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #555;
+            background: transparent;
+        }
+
+        .tab-btn:hover {
+            background: #e2e6ea;
+            color: #333;
+        }
+
+        .tab-btn.active {
+            background: #007bff;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+        }
+
+        /* --- CONTENT AREAS --- */
+        .tab-content {
+            padding: 40px;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .upload-form {
+            width: 100%;
+        }
+
+        .upload-area {
+            border: 2px dashed #a3c9f8;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9ff;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #007bff;
+            background: #f0f7ff;
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-title {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .upload-hint {
+            color: #888;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+        }
+
+        /* --- INPUT & BUTTONS --- */
+        .file-input-container {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: #007bff; /* Default Blue */
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .file-label:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .file-name-display {
+            color: #666;
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+
+        .btn-submit {
+            margin-top: 10px;
+            padding: 12px 40px;
+            background: #28a745; /* Green for submit default */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        /* --- VIDEO TAB SPECIFIC STYLES (ORANGE THEME) --- */
+        
+        /* Modifier Class untuk tombol input video */
+        .file-label-video {
+            background: #e67e22;
+        }
+        
+        .file-label-video:hover {
+            background: #d35400;
+        }
+
+        /* Modifier Class untuk tombol submit video */
+        .btn-video {
+            background: #e67e22;
+        }
+
+        .btn-video:hover {
+            background: #d35400;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Deteksi hasil laut</h1>
-    <form action="/detect" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Upload dan Deteksi</button>
-    </form>
+
+<div class="container">
+    
+    <div class="header">
+        <h1>YOLO Detection System</h1>
+        <p>Upload gambar atau video untuk mendeteksi objek secara realtime</p>
+    </div>
+
+    <div class="tabs-nav">
+        <button id="btn-image" class="tab-btn active" onclick="openTab('image')">
+            <i class="fas fa-image"></i> Image Detection
+        </button>
+        <button id="btn-video" class="tab-btn" onclick="openTab('video')">
+            <i class="fas fa-video"></i> Video Detection
+        </button>
+    </div>
+
+    <div id="tab-image" class="tab-content active">
+        <form action="{{ url_for('detect') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <div class="upload-area">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <h3 class="upload-title">Upload Image File</h3>
+                <p class="upload-hint">Format supported: JPG, PNG, JPEG</p>
+                
+                <div class="file-input-container">
+                    <label for="imageInput" class="file-label">
+                        <i class="fas fa-folder-open"></i> Choose Image
+                    </label>
+                    <input type="file" id="imageInput" name="image" accept="image/*" onchange="updateFileName(this, 'name-image')" required>
+                    
+                    <span id="name-image" class="file-name-display">No file chosen</span>
+                </div>
+
+                <button type="submit" class="btn-submit">Detect Now</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="tab-video" class="tab-content">
+        <form action="{{ url_for('detectVideo') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <div class="upload-area">
+                <i class="fas fa-film upload-icon"></i>
+                <h3 class="upload-title">Upload Video File</h3>
+                <p class="upload-hint">Format supported: MP4, AVI, MKV</p>
+
+                <div class="file-input-container">
+                    <label for="videoInput" class="file-label file-label-video">
+                        <i class="fas fa-folder-open"></i> Choose Video
+                    </label>
+                    <input type="file" id="videoInput" name="video" accept="video/*" onchange="updateFileName(this, 'name-video')" required>
+                    
+                    <span id="name-video" class="file-name-display">No file chosen</span>
+                </div>
+
+                <button type="submit" class="btn-submit btn-video">Analyze Video</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    function openTab(tabName) {
+        // Sembunyikan semua konten
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Matikan semua tombol nav
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Aktifkan yang dipilih
+        document.getElementById('tab-' + tabName).classList.add('active');
+        document.getElementById('btn-' + tabName).classList.add('active');
+    }
+
+    function updateFileName(input, spanId) {
+        const fileName = input.files[0] ? input.files[0].name : "No file chosen";
+        document.getElementById(spanId).textContent = fileName;
+    }
+</script>
+
 </body>
 </html>

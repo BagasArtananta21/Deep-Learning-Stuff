@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request
-from ultralytics import YOLO
 import os
-from utils.detect import run_detection
+from utils.detect import run_detection, run_detection_video
 from utils.convert import convert_to_jpg
-
 
 app = Flask(__name__)
 
@@ -23,20 +21,30 @@ def detect():
 
     output_path, results = run_detection(input_path)
 
-    return render_template('result.html', input_image=input_path, output_image=output_path, results=results)
+    return render_template(
+        'result.html',
+        input_image=input_path,
+        output_image=output_path,
+        results=results
+    )
 
+@app.route('/detectVideo', methods=['POST'])
+def detectVideo():
+    uploaded = request.files['video']
+    if not uploaded:
+        return "No File Uploaded"
 
-# def clean_uploads_and_results():
-#     folders = ["static/uploads", "static/results"]
-#     for folder in folders:
-#         if os.path.exists(folder):
-#             for file in os.listdir(folder):
-#                 filepath = os.path.join(folder, file)
-#                 if os.path.isfile(filepath):
-#                     os.remove(filepath)
+    input_path = os.path.join('static/uploads/videos', uploaded.filename)
+    uploaded.save(input_path)
 
-# atexit.register(clean_uploads_and_results)
+    output_path, class_count = run_detection_video(input_path)
 
+    return render_template(
+        'resultVideo.html',
+        input_video=input_path,
+        output_video=output_path,
+        counts=class_count
+    )
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
