@@ -1,2 +1,4 @@
 Flask
 ultralytics
+cv2
+moviepy
