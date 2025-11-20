@@ -7,9 +7,12 @@ from utils.convert import convert_to_jpg
 
 app = Flask(__name__)
 
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/detect', methods=['POST'])
 def detect():
@@ -36,6 +39,7 @@ def detect():
 #                     os.remove(filepath)
 
 # atexit.register(clean_uploads_and_results)
+
 
 
 if __name__ == '__main__':

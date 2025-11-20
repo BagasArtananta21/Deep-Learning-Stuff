@@ -3,13 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>YOLO Object Detection</title>
+    <style>
+        
+            * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                padding: 20px;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                overflow: hidden;
+            }
+
+            .header {
+                background: linear-gradient(135deg, #2c3e50, #34495e);
+                color: white;
+                padding: 30px;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+            }
+
+            .header p {
+                font-size: 1.1em;
+                opacity: 0.9;
+            }
+
+
+            .tab-content {
+            padding: 30px;
+            display: none;
+            }
+
+            .tab-content.active {
+            display: block;
+            }
+
+            .upload-area {
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+            }
+
+            .upload-area:hover {
+            border-color: #0056b3;
+            background: #e3f2fd;
+            }
+
+            .upload-area i {
+            font-size: 48px;
+            color: #007bff;
+            margin-bottom: 15px;
+            }
+
+            .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            }
+
+            .btn-primary {
+            background: #007bff;
+            color: white;
+            }
+
+            .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            }
+
+
+            .upload-form {
+                width: 100%;
+            }
+
+            .file-input-container {
+                margin: 20px 0;
+            }
+
+            .file-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 20px;
+                background: #007bff;
+                color: white;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .file-label:hover {
+                background: #0056b3;
+                transform: translateY(-2px);
+            }
+
+            .file-button {
+                font-weight: 600;
+            }
+
+            .file-name {
+                background: white;
+                color: #333;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-size: 14px;
+                min-width: 200px;
+                text-align: center;
+            }
+
+            #imageInput {
+                display: none;
+            }
+
+            .upload-form .upload-area {
+                cursor: default;
+            }
+
+            .upload-form .btn {
+                margin-top: 15px;
+            }
+    </style>
+
 </head>
 <body>
-    <h1>Deteksi hasil laut</h1>
-    <form action="/detect" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Upload dan Deteksi</button>
+    <div class="container">
+        <div class="header">
+            <h1>YOLO Objek Deteksi</h1>
+            <p>Deteksi Hasil Laut</p>
+        </div>
+
+
+<div id="image-tab" class="tab-content active">
+    
+    <form action="/detect" method="POST" enctype="multipart/form-data" class="upload-form">
+        <div class="upload-area">
+            <i>📷</i>
+            <h3>Upload Gambar</h3>
+            <p>Klik untuk memilih file gambar</p>
+            
+            <div class="file-input-container">
+                <label for="imageInput" class="file-label">
+                    <span class="file-button">Pilih File</span>
+                    <span class="file-name" id="fileName">Belum ada file dipilih</span>
+                </label>
+                <input type="file" id="imageInput" name="image" accept="image/*" required 
+                       onchange="document.getElementById('fileName').textContent = this.files[0] ? this.files[0].name : 'Belum ada file dipilih'">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Detect Objects</button>
+        </div>
     </form>
+
+
+
+       
 </body>
 </html>
