@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOLO Object Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">\
 </head>
 
 <body>
@@ -38,6 +38,17 @@
                         <i class="fas fa-folder-open"></i> Choose Image
                     </label>
                     <input type="file" id="imageInput" name="image" accept="image/*" onchange="updateFileName(this, 'name-image')" required>
+
+                    <div style="margin: 20px 0; text-align: left; display: inline-block;">
+                        <label style="font-weight: bold; color: #333;">Select Enhancement:</label>
+                        <select name="method" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="original">Original (No Filter)</option>
+                            <option value="clahe">CLAHE (Recommended)</option>
+                            <option value="he">Histogram Equalization</option>
+                            <option value="cs">Contrast Stretching</option>
+                            <option value="brightness">Increase Brightness</option>
+                        </select>
+                    </div>
                     
                     <span id="name-image" class="file-name-display">No file chosen</span>
                 </div>
@@ -70,25 +81,7 @@
 
 </div>
 
-<script>
-    function openTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        document.getElementById('tab-' + tabName).classList.add('active');
-        document.getElementById('btn-' + tabName).classList.add('active');
-    }
-
-    function updateFileName(input, spanId) {
-        const fileName = input.files[0] ? input.files[0].name : "No file chosen";
-        document.getElementById(spanId).textContent = fileName;
-    }
-</script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>

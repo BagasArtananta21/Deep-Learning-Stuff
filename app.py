@@ -12,6 +12,8 @@ def index():
 @app.route('/detect', methods=['POST'])
 def detect():
     uploaded = request.files['image']
+    method = request.form.get('method')
+
     if not uploaded:
         return "No File Uploaded"
 
@@ -19,13 +21,14 @@ def detect():
     uploaded.save(input_path)
     input_path = convert_to_jpg(input_path)
 
-    output_path, results = run_detection(input_path)
+    output_path, results = run_detection(input_path, method=method)
 
     return render_template(
         'result.html',
         input_image=input_path,
         output_image=output_path,
-        results=results
+        results=results,
+        method=method
     )
 
 @app.route('/detectVideo', methods=['POST'])

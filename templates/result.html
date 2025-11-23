@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">\
+    <title>Hasil Deteksi Image</title>
 </head>
 
     <style>
@@ -36,19 +37,21 @@
 <body>
     <h1>Hasil Deteksi</h1>
 
-<div class="container">
-    <div class="header">
+    <div class="container">
+        <div class="header">
+        </div>
+        
+        <div class="content">
+            <h2>Gambar Input:</h2>
+            <img src="{{ (input_image) }}" alt="Input Image" style="max-width: 500px;">
+            <h2>Gambar Output:</h2>
+            <img src="{{ output_image }}" alt="Output Image" style="max-width: 500px;">
+            
+            <a href="{{ output_image }}" download="hasil_deteksi_yolo.jpg">
+                <i class="fas fa-download"></i> Download Hasil
+            </a>
+        </div>
     </div>
-    
-    <div class="content">
-        <h2>Gambar Input:</h2>
-        <img src="{{ (input_image) }}" alt="Input Image" style="max-width: 500px;">
-        <h2>Gambar Output:</h2>
-        <img src="{{ (output_image) }}" alt="Output Image" style="max-width: 500px;">
-    </div>
-
-
-</div>
 
     <h2>Kelas:</h2>
     <ul>

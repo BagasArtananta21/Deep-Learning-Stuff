@@ -1,9 +1,4 @@
-def update_video_class_count(results_frame, class_names):
-    """
-    Menghitung jumlah objek per class DALAM 1 FRAME SAJA.
-    Digunakan untuk visualisasi realtime di video.
-    Output contoh: {'person': 3, 'car': 2}
-    """
+def video_class_count(results_frame, class_names):
     frame_count = {}
     
     for box in results_frame.boxes:

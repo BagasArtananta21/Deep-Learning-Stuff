@@ -3,17 +3,40 @@ import os
 import uuid
 import cv2
 from moviepy import VideoFileClip
-from utils.count import update_video_class_count
+from utils.count import video_class_count
+from utils.enchance import apply_brightness, apply_clahe, apply_cs, apply_he, calculate_metrics
 
 model = YOLO("models/best.pt")
 CLASS_NAMES = model.model.names
 
-def run_detection(image_path):
+def run_detection(image_path, method="original"):
+    original_img = cv2.imread(image_path)
+    orig_bright, orig_cont = calculate_metrics(original_img)
+    processed_img = original_img.copy()
+
+    if method == "he":
+        processed_img = apply_he(original_img)
+    elif method == "clahe":
+        processed_img = apply_clahe(original_img)
+    elif method == "brightness":
+        processed_img = apply_brightness(original_img)
+    elif method == "cs":
+        processed_img = apply_cs(original_img)
+
+    new_bright, new_cont = calculate_metrics(processed_img)
+    print(f"ENHANCEMENT DATA: {method.upper()}")
+
+    diff_bright = new_bright - orig_bright
+    diff_cont = new_cont - orig_cont
+
+    print(f"[Brightness] Awal: {orig_bright:.2f} -> Akhir: {new_bright:.2f} | Bedanya: {diff_bright:+.2f}")
+    print(f"[Contrast  ] Awal: {orig_cont:.2f}   -> Akhir: {new_cont:.2f}   | Bedanya: {diff_cont:+.2f}")
+
     filename = f"{uuid.uuid4()}.jpg"
     save_path = os.path.join("static/results/images", filename)
 
     results = model.predict(
-        image_path,
+        source=processed_img,  
         save=True,
         project="static/results/tmp",
         name="",
@@ -21,19 +44,20 @@ def run_detection(image_path):
     )
 
     r = results[0]
-
     save_dir = r.save_dir
-    if save_dir is None:
-        raise ValueError("YOLO tidak memberikan save_dir. Cek argumen save=True.")
-
-    result_img_path = os.path.join(save_dir, os.path.basename(image_path))
-
-    os.rename(result_img_path, save_path)
+    yolo_output_file = os.path.join(save_dir, "image0.jpg") 
+    
+    if os.path.exists(yolo_output_file):
+        os.rename(yolo_output_file, save_path)
+    else:
+        print("Warning: YOLO output file not found")
+        cv2.imwrite(save_path, r.plot())
 
     class_count = {}
     for box in r.boxes:
-        cls = int(box.cls[0])
-        class_count[cls] = class_count.get(cls, 0) + 1
+        cls_id = int(box.cls[0])
+        label = CLASS_NAMES.get(cls_id, str(cls_id))
+        class_count[label] = class_count.get(label, 0) + 1
 
     return save_path, class_count
 
@@ -61,7 +85,7 @@ def run_detection_video(video_path):
 
         res = results[0]
 
-        current_frame_count = update_video_class_count(res, CLASS_NAMES)
+        current_frame_count = video_class_count(res, CLASS_NAMES)
 
         final_summary_count = current_frame_count 
 
