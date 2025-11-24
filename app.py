@@ -36,7 +36,7 @@ def detectVideo():
     uploaded = request.files['video']
     if not uploaded:
         return "No File Uploaded"
-
+    
     input_path = os.path.join('static/uploads/videos', uploaded.filename)
     uploaded.save(input_path)
 
