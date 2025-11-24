@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOLO Object Detection</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loading.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">\
 </head>
 
@@ -59,7 +60,7 @@
     </div>
 
     <div id="tab-video" class="tab-content">
-        <form action="{{ url_for('detectVideo') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+        <form id="videoForm" action="{{ url_for('detectVideo') }}" method="POST" enctype="multipart/form-data" class="upload-form">
             <div class="upload-area">
                 <i class="fas fa-film upload-icon"></i>
                 <h3 class="upload-title">Upload Video File</h3>
@@ -74,14 +75,24 @@
                     <span id="name-video" class="file-name-display">No file chosen</span>
                 </div>
 
-                <button type="submit" class="btn-submit btn-video">Analyze Video</button>
+                <button type="submit" class="btn-submit btn-video" id="btnUploadVideo">Analyze Video</button>
+                
+                <div id="progress-container">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressBar">0%</div>
+                    </div>
+                    <div class="status-text" id="statusText">Mengupload Video...</div>
+                </div>
+
             </div>
         </form>
     </div>
 
 </div>
 
+<script src="{{ url_for('static', filename='js/loading.js') }}"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 
 </body>
 </html>

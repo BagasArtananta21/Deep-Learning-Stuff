@@ -1,0 +1,116 @@
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid #3b82f6;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 800px; 
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px dashed #cbd5e1;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .video-label {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: black; 
+            max-height: 500px; 
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-download {
+            background: #16a34a; 
+            color: white;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+        }
+
+        .btn-download:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background: #64748b; 
+            color: white;
+        }
+
+        .btn-back:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }

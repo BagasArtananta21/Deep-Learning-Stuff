@@ -4,64 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>Hasil Deteksi Image</title>
-</head>
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Hasil Deteksi YOLO</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/img_result.css') }}">
     <style>
-
-        .container {
-                max-width: 1200px;
-                margin: 0 auto;
-                background: white;
-                border-radius: 15px;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-                overflow: hidden;
-            }
-
-         .header {
-                background: linear-gradient(135deg, #2c3e50, #34495e);
-                color: white;
-                padding: 30px;
-                text-align: center;
-            }
-        
-            .content{
-                display: flex;
-                flex-wrap: wrap;
-            }
-        .h2{
-            display: inline;
-        }
-
+ 
     </style>
+</head>
 <body>
-    <h1>Hasil Deteksi</h1>
 
     <div class="container">
         <div class="header">
+            <h1> Hasil Deteksi YOLO</h1>
         </div>
-        
-        <div class="content">
-            <h2>Gambar Input:</h2>
-            <img src="{{ (input_image) }}" alt="Input Image" style="max-width: 500px;">
-            <h2>Gambar Output:</h2>
-            <img src="{{ output_image }}" alt="Output Image" style="max-width: 500px;">
+
+        <div class="content-wrapper">
             
-            <a href="{{ output_image }}" download="hasil_deteksi_yolo.jpg">
-                <i class="fas fa-download"></i> Download Hasil
-            </a>
+            <div class="image-container">
+                <div class="image-box">
+                    <h3><i class="fas fa-image"></i> Gambar Input</h3>
+                    <img src="{{ input_image }}" alt="Gambar Input">
+                </div>
+
+                <div class="image-box">
+                    <h3><i class="fas fa-crosshairs"></i> Gambar Output</h3>
+                    <img src="{{ output_image }}" alt="Gambar Output">
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h3><i class="fas fa-list-ul"></i> Objek Terdeteksi</h3>
+                <ul class="stats-list">
+                    {% if results %}
+                        {% for cls, count in results.items() %}
+                            <li class="stat-badge">
+                                <i class="fas fa-check-circle"></i>
+                                {{ cls }} <span style="background:rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; margin-left: 5px;">{{ count }}</span>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li style="color: #ef4444;">Tidak ada objek yang terdeteksi.</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{{url_for('index')}}" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+                
+                <a href="{{ output_image }}" download="hasil_deteksi_yolo.jpg" class="btn btn-download">
+                    <i class="fas fa-download"></i> Download Hasil
+                </a>
+            </div>
+
         </div>
     </div>
 
-    <h2>Kelas:</h2>
-    <ul>
-        {% for cls, count in results.items() %}
-            <li>Kelas {{ cls }}: {{ count }}</li>
-        {% endfor %}
-    </ul>
-
-    <p>
-        <a href="{{url_for('index')}}">back</a>
-    </p>
 </body>
 </html>
